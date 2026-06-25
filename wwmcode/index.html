@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=440, initial-scale=1.0, user-scalable=no">
+    <title>兌換碼比對系統 - 完美防爆彈性版</title>
+    <style>
+        body {
+            font-family: "Microsoft JhengHei", sans-serif;
+            text-align: center;
+            background-color: #121212; /* 鎖死暗色背景 */
+            color: #e0e0e0;
+            margin: 0;
+            padding: 40px 0;
+            overflow-x: hidden; /* 防止紙屑特效撐開X軸 */
+        }
+        
+        /* 固定總寬度鎖死在 440px */
+        .wrapper {
+            width: 440px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10; /* 確保內容在紙屑畫布之上，不影響點擊 */
+        }
+
+        /* 第 1 行：TW JOBO - 精算字距，使其與第 2 行中文字完美同寬 */
+        .brand {
+            font-family: "Arial Black", "Arial", "Helvetica", sans-serif; 
+            color: #191919; /* 初始極致隱蔽暗色 */
+            font-size: 42px; /* 放大 130% */
+            font-weight: 900; /* 極限加粗 */
+            letter-spacing: 1px; 
+            margin-bottom: 5px; 
+            text-transform: uppercase; 
+            transition: color 0.5s ease, text-shadow 0.5s ease;
+        }
+
+        /* 1% 觸發時：TW JOBO 被歐氣喚醒的黃金呼吸燈動畫 */
+        .brand.ssr-active {
+            color: #ffd700 !important;
+            animation: joboGlow 2s infinite ease-in-out;
+        }
+
+        @keyframes joboGlow {
+            0% { text-shadow: 0 0 5px #ffd700, 0 0 10px #ffd700; color: #ffd700; }
+            50% { text-shadow: 0 0 20px #fff799, 0 0 30px #ffd700, 0 0 40px #ffaa00; color: #ffffff; }
+            100% { text-shadow: 0 0 5px #ffd700, 0 0 10px #ffd700; color: #ffd700; }
+        }
+        
+        /* 第 2 行：主標題 */
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 5px;
+            letter-spacing: 0px; 
+        }
+        
+        /* 第 3 行：微調調亮一階 */
+        .subtitle {
+            color: #333333; 
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+
+        /* 第 4 行提示字：強制絕對不折行 */
+        .hint {
+            color: #bbbbbb;
+            font-size: 15px;
+            margin-bottom: 15px;
+            white-space: nowrap; 
+        }
+
+        /* 橫向並排區塊容器：水平完美中央置中 */
+        .input-row {
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            width: 440px;
+            gap: 10px; 
+            margin-bottom: 35px; 
+            position: relative; 
+        }
+
+        /* 左邊輸入框 */
+        textarea {
+            width: 210px; 
+            height: 135px; 
+            background-color: #1e1e1e;
+            border: 1px solid #333333;
+            padding: 10px;
+            font-size: 16px;
+            line-height: 1.4;
+            color: #c0c0c0;
+            box-sizing: border-box;
+            resize: none;
+            flex-shrink: 0;
+            transition: border-color 0.1s ease, box-shadow 0.1s ease;
+        }
+
+        .flash-red {
+            animation: borderFlash 0.2s ease-in-out;
+        }
+
+        @keyframes borderFlash {
+            0% { border-color: #333333; box-shadow: none; }
+            50% { border-color: #ff3333; box-shadow: 0 0 10px #ff3333; }
+            100% { border-color: #333333; box-shadow: none; }
+        }
+
+        /* 右邊比對按鈕 */
+        .btn {
+            width: 126px; 
+            height: 135px; 
+            background-color: #008f1f; 
+            color: white;
+            border: none;
+            font-size: 20px; 
+            line-height: 1.3;
+            font-weight: bold;
+            cursor: pointer;
+            box-sizing: border-box;
+            flex-shrink: 0; 
+            transition: background-color 0.2s ease; 
+        }
+        .btn:hover {
+            background-color: #007318;
+        }
+
+        /* 版本號 */
+        .version-box {
+            position: absolute;
+            right: 47px; 
+            bottom: -23px; 
+            color: #333333; 
+            font-size: 14px;
+            margin: 0;
+            pointer-events: none; 
+        }
+
+        /* 下方獨立結果框 */
+        .result-container {
+            width: 346px; 
+            min-height: 80px;   
+            max-height: 250px;  
+            background-color: #1e1e1e;
+            border: 1px solid #333333;
+            box-sizing: border-box;
+            padding: 12px;
+            text-align: left;
+            overflow-x: hidden; 
+            overflow-y: auto;   
+            margin: 0 auto 15px auto; 
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* 結果框內的統計文字置中 */
+        .result-summary {
+            color: #ffffff;
+            font-size: 15px;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed #444444;
+            padding-bottom: 5px;
+            text-align: center; 
+        }
+
+        /* 簡約分區標題 */
+        .section-title {
+            font-size: 13px;
+            color: #888888;
+            margin: 12px 0 6px 0;
+            padding-left: 2px;
+            border-left: 2px solid #555555;
+        }
+
+        /* 每一行佈局 */
+        .code-item {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 8px; 
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* 左側：複製按鈕 */
+        .copy-btn {
+            background-color: #444444;
+            color: #ffffff;
+            border: none;
+            width: 46px; 
+            padding: 3px 0; 
+            font-size: 13px;
+            line-height: 1.2;
+            cursor: pointer;
+            text-align: center;
+            flex-shrink: 0; 
+            border-radius: 2px; 
+        }
+        .copy-btn:hover {
+            background-color: #555555;
+        }
+        
+        .copy-btn.copied {
+            background-color: #2a2a2a !important;
+            color: #666666 !important;
+            pointer-events: none; 
+        }
+
+        /* 中間：新碼兌換碼文字區 */
+        .code-text {
+            color: #ffffff;
+            font-size: 16px;
+            width: 122px; 
+            margin-left: 12px; 
+            white-space: nowrap;   
+            overflow: hidden;      
+            text-overflow: ellipsis; 
+            flex-shrink: 0;
+        }
+
+        /* 右側：隨機趣味字串區 */
+        .fun-comment {
+            font-size: 14px;
+            width: 132px; 
+            margin-left: 10px; 
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; 
+            flex-shrink: 0;
+        }
+
+        /* 通用：字體高頻閃爍動畫 */
+        .flicker-text {
+            animation: textFlicker 0.15s infinite alternate;
+        }
+        @keyframes textFlicker {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        /* 四檔動態專屬 CSS 樣式庫 */
+        .rank-60 { color: #777777; font-weight: normal; }
+        .rank-30 { color: #ff3333; font-weight: bold; text-shadow: 0 0 2px rgba(255,51,51,0.5); }
+        .rank-9  { color: #bf55ec; font-weight: bold; text-shadow: 0 0 5px rgba(191,85,236,0.8); }
+        .rank-1  { color: #ffd700; font-weight: bold; text-shadow: 0 0 8px #ffd700, 0 0 12px #ffffff; }
+
+        /* 下方說明文字 */
+        .info-text {
+            color: #aaaaaa;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* 下方連結 */
+        .flow-container {
+            display: inline-block;
+            text-align: left;
+            color: #bbbbbb;
+            font-size: 16px;
+            line-height: 2;
+        }
+        .flow-label {
+            display: inline-block;
+            width: 40px; 
+        }
+        a {
+            color: #66b3ff;
+            text-decoration: underline;
+        }
+
+        /* 全螢幕紙屑專用輕量畫布 */
+        #confettiCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 5;
+        }
+    </style>
+    <script src="database.js"></script>
+</head>
+<body>
+
+<canvas id="confettiCanvas"></canvas>
+
+<div class="wrapper">
+    <div class="brand" id="brandText">TW JOBO</div>
+    <div class="title">兌換碼 比對系統</div>
+    <div class="subtitle">（燕雲十六聲）</div>
+    
+    <div class="hint">請輸入 想比對的兌換碼（不分大小寫、建議分行）</div>
+    
+    <div class="input-row">
+        <textarea id="codeInput" placeholder="例如：
+
+wwmcode168
+JOBO131420
+idk08957"></textarea>
+        <button class="btn" id="actionBtn" onclick="handleAction()">開始比對<br>( Check )</button>
+        
+        <div class="version-box">Ver. 2.93</div>
+    </div>
+    
+    <div class="result-container" id="resultContainer" style="display: none;"></div>
+    
+    <div class="info-text">
+        比對依據：我整理的總表（公告於 YT 貼文區）<br>
+        " 只需比對一次 " 總表（使自己與總表對齊）<br>
+        後續即可快速更新，並 " 識別 " 大量重複的碼
+    </div>
+    
+    <div class="flow-container">
+        <span class="flow-label">總表</span>→ <a href="https://youtube.com/post/Ugkxj9kR8hm0ZFhaI3NEwqMfAGYyqHVKStlr?si=HVaYynIlw5dD0FxR" target="_blank" rel="noopener noreferrer">YouTube</a><br>
+        <span class="flow-label">更新</span>→ <a href="https://www.threads.com/@twjobo" target="_blank" rel="noopener noreferrer">Threads</a>
+    </div>
+</div>
+
+<script>
+    // 🔒 斷代物理防爆的核心邏輯：網頁內部 100% 格式化清空！不給歷史包袱留下任何空間！
+    let activeDatabase = [];
+    let lowerDb = [];
+
+    // 系統初始化：強行核對外部真理庫的存在性
+    function initializeDatabase() {
+        if (typeof masterDatabase !== 'undefined' && Array.isArray(masterDatabase)) {
+            activeDatabase = masterDatabase;
+            lowerDb = activeDatabase.map(v => v.toLowerCase());
+            return true;
+        } else {
+            console.error("【系統中斷】外部唯一的真理資料庫 database.js 尚未讀取成功！");
+            return false;
+        }
+    }
+
+    // 預先執行一次初始化
+    initializeDatabase();
+
+    let isResultMode = false;
+
+    function handleAction() {
+        const inputArea = document.getElementById('codeInput');
+        const actionBtn = document.getElementById('actionBtn');
+        const resultContainer = document.getElementById('resultContainer');
+        const brandText = document.getElementById('brandText');
+
+        // 安全攔截閥：如果使用者急著點擊時外部庫還沒下載完，在此強行抓取第二次
+        if (lowerDb.length === 0) {
+            if (!initializeDatabase()) {
+                // 如果外部檔案依然讀不到，直接物理強制重整網頁重新抓取最新快取，不允許發生誤判
+                location.reload();
+                return;
+            }
+        }
+
+        if (!isResultMode) {
+            const rawText = inputArea.value;
+            const lines = rawText.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+            
+            if (lines.length === 0) {
+                inputArea.classList.remove('flash-red');
+                void inputArea.offsetWidth; 
+                inputArea.classList.add('flash-red');
+                return;
+            }
+
+            const uniqueInputs = [...new Set(lines)];
+            let newsCodesHtml = "";
+            let newsCount = 0;
+            let dupsCount = 0;
+
+            uniqueInputs.forEach(code => {
+                const lowerInput = code.toLowerCase();
+                
+                // 🔒 唯一數據對齊：只向外部 masterDatabase 比對
+                if (lowerDb.includes(lowerInput)) {
+                    dupsCount++;
+                } else {
+                    newsCount++;
+                    const isCheat = (lowerInput === "twjoboisgod");
+                    newsCodesHtml += `
+                        <div class="code-item">
+                            <button class="copy-btn" onclick="copyCode('${code.replace(/'/g, "\\'")}', this, ${isCheat})">複製</button>
+                            <span class="code-text">${code}</span>
+                            <span class="fun-comment"></span>
+                        </div>
+                    `;
+                }
+            });
+
+            let finalHtml = `<div class="result-summary">【 比對結果 】 新碼：${newsCount} 組 / 已重複：${dupsCount} 組</div>`;
+            if (newsCount > 0) {
+                finalHtml += `<div class="section-title">未重複（新碼）</div>` + newsCodesHtml;
+            }
+
+            resultContainer.innerHTML = finalHtml;
+            resultContainer.style.display = "block";
+            
+            actionBtn.innerHTML = "重整<br>( Reset )";
+            actionBtn.style.backgroundColor = "#0056b3"; 
+            isResultMode = true;
+        } else {
+            resultContainer.innerHTML = "";
+            resultContainer.style.display = "none";
+            brandText.classList.remove('ssr-active');
+            inputArea.value = "";
+            actionBtn.innerHTML = "開始比對<br>( Check )";
+            actionBtn.style.backgroundColor = "#008f1f"; 
+            isResultMode = false;
+            inputArea.focus();
+        }
+    }
+
+    function copyCode(text, buttonElement, isCheatMode) {
+        navigator.clipboard.writeText(text).then(() => {
+            buttonElement.innerText = "已複製";
+            buttonElement.classList.add('copied');
+            
+            const itemContainer = buttonElement.parentElement;
+            const commentSpan = itemContainer.querySelector('.fun-comment');
+            const brandText = document.getElementById('brandText');
+            
+            if (commentSpan.innerText === "") {
+                let roll = Math.floor(Math.random() * 100); 
+                if (isCheatMode) roll = 0; 
+
+                if (roll < 1) {
+                    commentSpan.innerText = "九博殿下 終圓滿";
+                    commentSpan.className = "fun-comment rank-1 flicker-text";
+                    brandText.classList.add('ssr-active');
+                    startConfetti();
+                } else if (roll < 10) {
+                    commentSpan.innerText = "八音竅 愛上你";
+                    commentSpan.className = "fun-comment rank-9 flicker-text";
+                } else if (roll < 40) {
+                    commentSpan.innerText = "30% 成就達成";
+                    commentSpan.className = "fun-comment rank-30 flicker-text";
+                } else {
+                    commentSpan.innerText = "福氣 + + +";
+                    commentSpan.className = "fun-comment rank-60";
+                }
+            }
+            
+            setTimeout(() => {
+                buttonElement.innerText = "複製";
+                buttonElement.classList.remove('copied');
+            }, 1200);
+        }).catch(err => console.error('複製失敗: ', err));
+    }
+
+    const canvas = document.getElementById("confettiCanvas");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+    let animationFrameId = null;
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function startConfetti() {
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        particles = [];
+        for (let i = 0; i < 120; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height - canvas.height,
+                size: Math.random() * 6 + 4,
+                speedX: Math.random() * 4 - 2,
+                speedY: Math.random() * 5 + 3,
+                color: ["#ffd700", "#fff799", "#ffaa00", "#ffffff", "#ffe57f"][Math.floor(Math.random() * 5)],
+                rotation: Math.random() * 360,
+                rotationSpeed: Math.random() * 4 - 2
+            });
+        }
+        animateParticles();
+    }
+
+    function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let alive = false;
+        particles.forEach(p => {
+            if (p.y < canvas.height) {
+                alive = true;
+                p.y += p.speedY;
+                p.x += p.speedX;
+                p.rotation += p.rotationSpeed;
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate((p.rotation * Math.PI) / 180);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                ctx.restore();
+            }
+        });
+        if (alive) animationFrameId = requestAnimationFrame(animateParticles);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+</script>
+
+</body>
+</html>
