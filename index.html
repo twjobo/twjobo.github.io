@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>TW JOBO - 官方大本營</title>
+    <style>
+        /* ----------------------------------
+           🔒 1. 全域極簡物理鎖死
+           ---------------------------------- */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000000; /* 最深邃的物理絕對純黑 */
+            overflow: hidden;          /* 鎖死手機端任何滑動 */
+            position: relative;
+        }
+
+        body {
+            font-family: "Arial Black", "Arial", sans-serif;
+            user-select: none;
+        }
+
+        /* ----------------------------------
+           🔒 2. 大主管流體幾何坐標容器 (物理防爆沙盒)
+           ---------------------------------- */
+
+        /* 【北極守衛】：TW
+           公式：高度 25% 位置。大小精準鎖定在 JOBO 的 60% = 寬度 36vw */
+        .wrapper-tw {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 36vw;
+            text-align: center;
+        }
+        .brand-tw {
+            font-size: 11vw;
+            font-weight: 900;
+            color: #333333; /* 比底色亮 2 階 */
+            letter-spacing: 1vw;
+            margin-right: -1vw; /* 🔒 補丁：完美抵銷最後一個字母右側的字距，達成絕對幾何中軸 */
+            text-transform: uppercase;
+            line-height: 1; 
+            display: block;
+        }
+
+        /* 【赤道核心】：JOBO
+           公式：絕對螢幕中心 (高度 50%)。總字組寬度 = 螢幕寬度的 60% */
+        .wrapper-jobo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60vw;
+            text-align: center;
+        }
+        .brand-jobo {
+            font-size: 16.5vw;
+            font-weight: 900;
+            text-transform: uppercase;
+            line-height: 1; 
+            display: block;
+            
+            letter-spacing: 0.5vw;
+            margin-right: -0.5vw; /* 🔒 補丁：完美抵銷最後一個字母右側的字距 */
+            padding-right: 0.8vw; /* 物理補償字母 J 帶來的視覺偏心 */
+            
+            /* 👑 4.21秒不對稱靈魂呼吸光動態特效 */
+            animation: joboImperialGlow 4.21s infinite ease-in-out;
+        }
+
+        /* 🔒 不對稱極光呼吸動態曲線 */
+        @keyframes joboImperialGlow {
+            0%, 80%, 100% { 
+                color: #1a1a1a; /* 比純黑底色亮 1 階 */
+                text-shadow: 0 0 1vw rgba(26, 26, 26, 0.2);
+            }
+            50% { 
+                color: #666666; /* 再亮 3 階 */
+                text-shadow: 0 0 2vw rgba(102, 102, 102, 0.4);
+            }
+        }
+
+        /* 【南極錨點】：wwmcode 傳送門定位
+           公式：螢幕底端往上 +0.3D = 絕對高度 85% */
+        .nav-bottom-gate {
+            position: absolute;
+            top: 85%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            text-align: center;
+            z-index: 999; /* 確保層級最高，對抗 iOS 系統手勢攔截 */
+        }
+
+        /* wwmcode 連結本體 (縮小 60% ➜ 2.7vw) */
+        .nav-link-static {
+            font-size: 2.7vw; /* 精緻、精純的微縮流體字，全面關閉呼吸 */
+            font-weight: bold;
+            color: #999999; /* 比底色亮 5 階 */
+            text-decoration: none;
+            letter-spacing: 0.4vw;
+            margin-right: -0.4vw; /* 🔒 補丁：完美抵銷最後一個字母右側的字距 */
+            
+            /* 大幅度擴大隱形觸控熱區（上下 25px，左右 60px） */
+            padding: 25px 60px; 
+            
+            border-bottom: 2px solid transparent;
+            transition: color 0.2s ease, border-color 0.2s ease;
+            display: inline-block;
+        }
+
+        /* 人類長按或觸碰時的純淨反饋 */
+        .nav-link-static:hover {
+            color: #ffffff; /* 瞬間點亮最高階純白 */
+            border-color: #555555;
+        }
+
+        /* 🔒 補丁：極端環境安全閥 ── 當手機橫放 (高度極矮) 時，
+           微調垂直分布比例，防止北極與赤道撞車 */
+        @media (max-height: 450px) {
+            .wrapper-tw { top: 18%; }
+            .wrapper-jobo { top: 50%; }
+            .nav-bottom-gate { top: 82%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper-tw">
+        <span class="brand-tw">TW</span>
+    </div>
+
+    <div class="wrapper-jobo">
+        <span class="brand-jobo">JOBO</span>
+    </div>
+
+    <div class="nav-bottom-gate">
+        <a href="wwmcode/" class="nav-link-static">wwmcode</a>
+    </div>
+
+</body>
+</html>
