@@ -1,5 +1,5 @@
-// 🔒 燕雲十六聲 - 兌換碼真實總表資料庫 (Ver. 2.93)
-// 更新說明：已同步 2026/06/27 最新總表資料。
+// 🔒 燕雲十六聲 - 兌換碼真實總表資料庫 (Ver. 2.94 - 完整版)
+// 更新說明：已完整同步 2026/06/27 最新總表 (共 112 組) 
 // 維護提示：未來有新碼直接在陣列內新增即可。
 const masterDatabase = [
     "DQTEXM8DMH","EPFXQKJ8FX","FQRR4HW38N","JTATEPNY3W","KW7C4KCJ4F",
@@ -21,6 +21,9 @@ const masterDatabase = [
     "WWMQC15","WWMQC16","WWMQC17","WWMQC18","WWMQC19",
     "WWMQC20","WWMQC21","WWMQC22","WWMQC23","WWMQC24",
     "WWMQC25","WWMQC26","WWMQC27","WWMQC28","WWMQC29",
-    "WWMQC30"
-    // 如有 2026/06/27 之後的新碼，請在此處擴充
+    "WWMQC30","EJXXHKDHHK","GOHOME123","hh6am6c8rf","HOMESTEAD0625",
+    "MFDTMT3YMA","PEE6RWWEFK","tsy7rd6jtm","TNHP8E8W3T","yryqhtneda",
+    "AMWHXMXNWW","AMTRC8F3AJ","ESJCRRJC64","FN4DAJWAKD","KTJWN6EQR6",
+    "RNHRPD6FN8","YQTWNQKJJE"
+    // 共 112 組兌換碼，資料庫已達完全同步 
 ];
