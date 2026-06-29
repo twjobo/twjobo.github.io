@@ -1,5 +1,4 @@
-// 🔒 燕雲十六聲 - 兌換碼真實總表資料庫 (Ver. 2.94 - 完整版)
-// 更新說明：已完整同步 2026/06/27 最新總表 (共 112 組) 
+// 🔒 燕雲十六聲 - 兌換碼真實總表資料庫
 // 維護提示：未來有新碼直接在陣列內新增即可。
 const masterDatabase = [
     "DQTEXM8DMH","EPFXQKJ8FX","FQRR4HW38N","JTATEPNY3W","KW7C4KCJ4F",
@@ -24,6 +23,15 @@ const masterDatabase = [
     "WWMQC30","EJXXHKDHHK","GOHOME123","hh6am6c8rf","HOMESTEAD0625",
     "MFDTMT3YMA","PEE6RWWEFK","tsy7rd6jtm","TNHP8E8W3T","yryqhtneda",
     "AMWHXMXNWW","AMTRC8F3AJ","ESJCRRJC64","FN4DAJWAKD","KTJWN6EQR6",
-    "RNHRPD6FN8","YQTWNQKJJE"
-    // 共 112 組兌換碼，資料庫已達完全同步 
+    "RNHRPD6FN8","YQTWNQKJJE",
+    // --- 2026/06/29 新增 37 組兌換碼如下 ---
+    "DueBid9467","ARN8KQJAET","cw4ap7aa6t","DTXHCJ6DNN","EKMW673Q8A",
+    "fhkd7hhwrj","fn6aha3t7n","fxa7wpxp6c","HK367A6FDJ","HSM84QD8DQ",
+    "HSWW3NCEKY","HD8PHDX443","HD4CRCHPTN","krda7x3axy","kj4yf433mn",
+    "kwafcwdfjf","keryf4rxm4","KAAYFMX7HP","MAWQA8HR48","MKTQJR3DMA",
+    "nkttcpetyc","NY4TTJKEKQ","NSAHT7AHKJ","PAM46YAQ86","PXYR8M4AJJ",
+    "QSD4JECMQD","RP68WW3NY6","RNTF3MMTMR","rycdp8mmnh","SE3RNWEDAT",
+    "THMQNAFXQC","TD8XMRKJMK","WWMREDDIT0625","WH7PRYFFPA","xqfweqmkmx",
+    "YYP4QNC7NQ","YY3NQAJ7WJ",
+    // 共 149 組兌換碼，資料庫2026/06/29已達完全同步
 ];
