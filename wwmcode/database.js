@@ -43,5 +43,7 @@ const masterDatabase = [
     "TRAC6YKC8P","TP78EF43YH","XM8AQFRCPX",
     // --- 2026.07.10 新增 4 碼
     "CAMHWXWYQX","SPQMXKP3P4","JXT3CTJHWP","MX8MYAYJ4Q",
-    // 共 179 組兌換碼，資料庫2026/07/10已達完全同步
+    // --- 2026.07.15 新增 5 碼
+    "JPP8WCWPHE","NQP4YKKFJ4","RN8T4EWWD7","SCK3JFTF7M","WJ8N4AHDMK",
+    // 共 184 組兌換碼，資料庫2026/07/15已達完全同步
 ];
