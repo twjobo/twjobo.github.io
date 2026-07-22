@@ -45,5 +45,7 @@ const masterDatabase = [
     "CAMHWXWYQX","SPQMXKP3P4","JXT3CTJHWP","MX8MYAYJ4Q",
     // --- 2026.07.15 新增 5 碼
     "JPP8WCWPHE","NQP4YKKFJ4","RN8T4EWWD7","SCK3JFTF7M","WJ8N4AHDMK",
-    // 共 184 組兌換碼，資料庫2026/07/15已達完全同步
+    // --- 2026.07.22 新增 3 碼
+    "GOOSELOVEU","0723HMGO","MEETINHM",
+    // 共 187 組兌換碼，資料庫2026/07/22已達完全同步
 ];
