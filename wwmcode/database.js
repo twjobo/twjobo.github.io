@@ -71,5 +71,7 @@ const masterDatabase = [
     // --- 2026.08.01 新增 9 碼
     "CP434JE4JT","DD38H44TYH","EW3KP6CDKF","RHDNNKKW4R","SAJMDP88ET",
     "WQ7HMATQEK","WWMR3DD1T","XDY3QF6PJ6","XXEHQ8XKK3",
-    // 共 276 組兌換碼，資料庫2026/08/01已達完全同步
+    // --- 2026.08.03 新增 5 碼
+    "JSYE7WXYFF","JJHAA8PYA7","PE7W8MRH76","RSNAW67ATQ","WDTQXRW4EW",
+    // 共 281 組兌換碼，資料庫2026/08/03已達完全同步
 ];
