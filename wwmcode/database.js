@@ -73,7 +73,5 @@ const masterDatabase = [
     "WQ7HMATQEK","WWMR3DD1T","XDY3QF6PJ6","XXEHQ8XKK3",
     // --- 2026.08.03 新增 5 碼
     "JSYE7WXYFF","JJHAA8PYA7","PE7W8MRH76","RSNAW67ATQ","WDTQXRW4EW",
-    // --- 2026.08.06 新增 4 碼
-    "BOSSSLAYER","QQ8FHPMN3C","SKFW3FXHER","WWM20261114",
-    // 共 285 組兌換碼，資料庫2026/08/06已達完全同步
+    // 共 281 組兌換碼，資料庫2026/08/03已達完全同步
 ];
